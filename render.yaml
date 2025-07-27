@@ -3,6 +3,8 @@ services:
     name: mycomputerstore
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python main.py"
+    startCommand: "gunicorn main:app"
     plan: free
+    branch: main
+    runtime: python
 
