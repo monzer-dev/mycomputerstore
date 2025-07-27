@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>متجر بيع كمبيوتر</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-image: url('{{ url_for('static', filename='background.jpg') }}');">
+
+    <div class="container">
+        <h1>💻 متجر بيع كمبيوتر 💻</h1>
+
+        {% if session.get('logged_in') %}
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <button type="submit">رفع الملف</button>
+            </form>
+            <a href="/logout">تسجيل الخروج</a>
+        {% else %}
+            <a href="/login">دخول المسؤول</a>
+        {% endif %}
+
+        <div class="gallery">
+            {% for file in files %}
+                {% if file.endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
+                    <img src="{{ url_for('uploaded_file', filename=file) }}" alt="{{ file }}">
+                {% elif file.endswith(('.mp4', '.webm')) %}
+                    <video controls>
+                        <source src="{{ url_for('uploaded_file', filename=file) }}">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <a class="whatsapp" href="https://wa.me/9613467271" target="_blank">تواصل عبر واتساب</a>
+    </div>
+
+</body>
+</html>
